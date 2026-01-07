@@ -1,6 +1,6 @@
 const taskInput = document.getElementById("taskInput");
-const addTaskBtn = document.getElementById("addTaskBtn");
 const taskList = document.getElementById("taskList");
+const form = document.getElementById("taskForm");
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
@@ -9,15 +9,10 @@ window.onload = () => {
   tasks.forEach(task => createTask(task.text, task.completed));
 };
 
-addTaskBtn.addEventListener("click", () => {
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
   addTask(taskInput.value);
 });
-taskInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    addTask(taskInput.value);
-  }
-});
-
 
 function addTask(text) {
   const taskText = text.trim();
@@ -81,7 +76,3 @@ function updateTasks() {
   });
   saveTasks();
 }
-
-
-
-
