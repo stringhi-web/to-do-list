@@ -12,6 +12,11 @@ window.onload = () => {
 addTaskBtn.addEventListener("click", () => {
   addTask(taskInput.value);
 });
+taskInput.addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    addTask(taskInput.value);
+  }
+});
 
 function addTask(text) {
   const taskText = text.trim();
@@ -75,3 +80,4 @@ function updateTasks() {
   });
   saveTasks();
 }
+
