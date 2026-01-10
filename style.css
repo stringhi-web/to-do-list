@@ -5,6 +5,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Page */
 body {
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea, #764ba2);
@@ -17,7 +18,7 @@ body {
 .container {
   background: #ffffff;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   padding: 24px;
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -30,7 +31,7 @@ h1 {
   color: #333;
 }
 
-/* Input */
+/* Input group */
 .input-group {
   display: flex;
   gap: 8px;
@@ -43,6 +44,11 @@ h1 {
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 14px;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #667eea;
 }
 
 .input-group button {
@@ -76,6 +82,7 @@ h1 {
   background: #e2e8f0;
   color: #333;
   font-size: 13px;
+  transition: background 0.2s;
 }
 
 .filters button.active {
@@ -104,6 +111,7 @@ li {
 
 li span {
   cursor: pointer;
+  word-break: break-word;
 }
 
 li span.completed {
