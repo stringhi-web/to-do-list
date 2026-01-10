@@ -7,31 +7,33 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Favicon (opcional, pode remover se quiser) -->
+  <link rel="icon" href="favicon.ico">
 </head>
 <body>
 
   <div class="container">
     <h1>To-Do List</h1>
 
-    <!-- Form handles Enter + Button -->
     <form class="input-group" id="taskForm">
-  <input
-    type="text"
-    id="taskInput"
-    placeholder="Enter a new task"
-    autocomplete="off"
-    required
-  />
-  <button type="submit">Add Task</button>
-</form>
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="Enter a new task"
+        autocomplete="off"
+        required
+      />
+      <button type="submit">Add Task</button>
+    </form>
 
-<div class="filters">
-  <button data-filter="all" class="active">All</button>
-  <button data-filter="pending">Pending</button>
-  <button data-filter="completed">Completed</button>
-</div>
+    <div class="filters">
+      <button data-filter="all" class="active">All</button>
+      <button data-filter="pending">Pending</button>
+      <button data-filter="completed">Completed</button>
+    </div>
 
-<ul id="taskList"></ul>
+    <ul id="taskList"></ul>
   </div>
 
   <!-- JavaScript -->
@@ -39,6 +41,7 @@
 
 </body>
 </html>
+
 
 
 
