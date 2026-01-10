@@ -91,3 +91,30 @@ li button {
 li button:hover {
   background: #c53030;
 }
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.filters button {
+  flex: 1;
+  margin: 0 4px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #e2e8f0;
+  color: #333;
+  font-size: 13px;
+}
+
+.filters button.active {
+  background: #667eea;
+  color: #fff;
+}
+
+.filters button:hover {
+  background: #cbd5e0;
+}
+
