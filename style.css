@@ -1,120 +1,90 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+const taskInput = document.getElementById("taskInput");
+const taskList = document.getElementById("taskList");
+const form = document.getElementById("taskForm");
+const filterButtons = document.querySelectorAll(".filters button");
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let currentFilter = "all";
+
+// Carregar tarefas ao iniciar
+window.onload = () => {
+  renderTasks();
+};
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  addTask(taskInput.value);
+});
+
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    currentFilter = button.dataset.filter;
+
+    filterButtons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+
+    renderTasks();
+  });
+});
+
+function addTask(text) {
+  const taskText = text.trim();
+  if (taskText === "") return;
+
+  tasks.push({
+    text: taskText,
+    completed: false
+  });
+
+  saveTasks();
+  renderTasks();
+  taskInput.value = "";
 }
 
-body {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+function renderTasks() {
+  taskList.innerHTML = "";
+
+  let filteredTasks = tasks;
+
+  if (currentFilter === "completed") {
+    filteredTasks = tasks.filter(task => task.completed);
+  }
+
+  if (currentFilter === "pending") {
+    filteredTasks = tasks.filter(task => !task.completed);
+  }
+
+  filteredTasks.forEach((task, index) => {
+    const li = document.createElement("li");
+
+    const span = document.createElement("span");
+    span.textContent = task.text;
+
+    if (task.completed) {
+      span.classList.add("completed");
+    }
+
+    span.addEventListener("click", () => {
+      tasks[index].completed = !tasks[index].completed;
+      saveTasks();
+      renderTasks();
+    });
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "X";
+
+    deleteBtn.addEventListener("click", () => {
+      tasks.splice(index, 1);
+      saveTasks();
+      renderTasks();
+    });
+
+    li.appendChild(span);
+    li.appendChild(deleteBtn);
+    taskList.appendChild(li);
+  });
 }
 
-.container {
-  background: #fff;
-  width: 100%;
-  max-width: 400px;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.input-group {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-.input-group input {
-  flex: 1;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-.input-group button {
-  padding: 10px 14px;
-  background: #667eea;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.input-group button:hover {
-  background: #5a67d8;
-}
-
-ul {
-  list-style: none;
-}
-
-li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #f7f7f7;
-  padding: 10px;
-  border-radius: 6px;
-  margin-bottom: 8px;
-}
-
-li span {
-  cursor: pointer;
-}
-
-li span.completed {
-  text-decoration: line-through;
-  color: #888;
-}
-
-li button {
-  background: #e53e3e;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-
-li button:hover {
-  background: #c53030;
-}
-.filters {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.filters button {
-  flex: 1;
-  margin: 0 4px;
-  padding: 8px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: #e2e8f0;
-  color: #333;
-  font-size: 13px;
-}
-
-.filters button.active {
-  background: #667eea;
-  color: #fff;
-}
-
-.filters button:hover {
-  background: #cbd5e0;
-}
-
