@@ -83,18 +83,19 @@ function renderTasks() {
   }
 
   if (tasks.length === 0) {
-    // Mostra frase apenas se não houver tarefas cadastradas
+    // Nenhuma tarefa cadastrada
     const empty = document.createElement("li");
     empty.id = "emptyState";
     empty.textContent = "No tasks yet. Add your first task 👆";
     taskList.appendChild(empty);
   } else if (filteredTasks.length === 0) {
-    // Mostra frase se o filtro atual não retornar tarefas
+    // Não há tarefas para o filtro selecionado
     const empty = document.createElement("li");
     empty.id = "emptyState";
     empty.textContent = "No tasks found for this filter";
     taskList.appendChild(empty);
   } else {
+    // Renderiza tarefas filtradas
     filteredTasks.forEach((task) => {
       const index = tasks.indexOf(task);
       const taskElement = createTaskElement(task, index);
@@ -104,6 +105,7 @@ function renderTasks() {
 
   updateTaskCounter();
 }
+
 
 // ==========================
 // CONTADOR DE TAREFAS
@@ -168,3 +170,4 @@ toggleThemeBtn.addEventListener("click", () => {
 // INICIALIZAÇÃO
 // ==========================
 renderTasks();
+
