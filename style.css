@@ -1,4 +1,4 @@
-/* Reset básico */
+/* ===== RESET ===== */
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +6,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Fundo da página */
+/* ===== BODY ===== */
 body {
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea, #764ba2);
@@ -15,7 +15,7 @@ body {
   align-items: center;
 }
 
-/* Container principal */
+/* ===== CONTAINER ===== */
 .container {
   background: #ffffff;
   width: 100%;
@@ -25,18 +25,18 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Título */
+/* ===== TITLE ===== */
 .container h1 {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
 }
 
-/* Formulário */
+/* ===== FORM ===== */
 .input-group {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .input-group input {
@@ -52,12 +52,11 @@ body {
   border-color: #667eea;
 }
 
-/* Botão */
 .input-group button {
   padding: 10px 14px;
   border: none;
-  background: #667eea;
-  color: #fff;
+  background-color: #667eea;
+  color: #ffffff;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
@@ -65,49 +64,77 @@ body {
 }
 
 .input-group button:hover {
-  background: #5563d6;
+  background-color: #5563d6;
 }
 
-/* Lista */
+/* ===== FILTER BUTTONS ===== */
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  background-color: #e0e0e0;
+  color: #333;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.filters button:hover {
+  background-color: #d5d5d5;
+}
+
+.filters button.active {
+  background-color: #667eea;
+  color: #ffffff;
+}
+
+/* ===== TASK LIST ===== */
 #taskList {
   list-style: none;
 }
 
-/* Item da lista */
+/* ===== TASK ITEM ===== */
 #taskList li {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #f5f5f5;
   padding: 10px 12px;
   border-radius: 6px;
-  background: #f5f5f5;
   margin-bottom: 10px;
   transition: background 0.2s;
 }
 
 #taskList li:hover {
-  background: #ececec;
+  background-color: #ececec;
 }
 
-/* Texto da tarefa */
+/* ===== TASK TEXT ===== */
 #taskList li span {
   flex: 1;
-  cursor: pointer;
   font-size: 14px;
   color: #333;
+  cursor: pointer;
 }
 
-/* Tarefa concluída */
+/* ===== COMPLETED TASK ===== */
 #taskList li span.completed {
   text-decoration: line-through;
   color: #999;
 }
 
-/* Botão remover */
+/* ===== DELETE BUTTON ===== */
 #taskList li button {
-  background: #ff4d4d;
+  background-color: #ff4d4d;
   border: none;
-  color: #fff;
+  color: #ffffff;
   border-radius: 4px;
   padding: 4px 8px;
   cursor: pointer;
@@ -117,27 +144,5 @@ body {
 }
 
 #taskList li button:hover {
-  background: #e63e3e;
+  background-color: #e63e3e;
 }
-/* Filtros */
-.filters {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.filters button {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 20px;
-  background: #e0e0e0;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.filters button.active {
-  background: #667eea;
-  color: #fff;
-}
-
