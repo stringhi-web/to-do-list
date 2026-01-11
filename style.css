@@ -1,173 +1,54 @@
-/* ==========================
-   BODY E CONTAINER
-========================== */
-body {
-  height: 100vh;
-  display: flex;
-  justify-content: center; /* horizontal */
-  align-items: center;     /* vertical */
-  background: linear-gradient(135deg, #a8e063, #56ab2f);
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do List</title>
 
-.container {
-  background: #fff;
-  padding: 30px 25px;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* centraliza todos os elementos internos */
-  gap: 15px; /* espaço entre itens */
-}
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-/* ==========================
-   TÍTULO
-========================== */
-h1 {
-  margin-bottom: 10px;
-  color: #333;
-}
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-/* ==========================
-   FORMULÁRIO
-========================== */
-.input-group {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-}
+  <div class="container">
+    <h1>To-Do List</h1>
 
-#taskInput {
-  flex: 1;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
+    <!-- Formulário (Enter + botão funcionam) -->
+    <form id="taskForm" class="input-group">
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="Enter a new task"
+        autocomplete="off"
+        required
+      />
+      <button type="submit">Add</button>
+    </form>
 
-.input-group button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: #56ab2f;
-  color: #fff;
-  font-weight: bold;
-  transition: background 0.3s;
-}
+    <!-- Filtros -->
+    <div class="filters">
+      <button data-filter="all" class="active">All</button>
+      <button data-filter="pending">Pending</button>
+      <button data-filter="completed">Completed</button>
+    </div>
 
-.input-group button:hover {
-  background: #3e8e2f;
-}
+    <!-- Contador de tarefas -->
+    <p id="taskCounter"></p>
 
-/* ==========================
-   FILTROS
-========================== */
-.filters {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
+    <!-- Lista de tarefas -->
+    <ul id="taskList"></ul>
 
-.filters button {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: #eee;
-  transition: background 0.3s;
-}
+    <!-- Estado vazio -->
+    <p id="emptyState">No tasks yet. Add your first task 👆</p>
 
-.filters button.active,
-.filters button:hover {
-  background: #56ab2f;
-  color: #fff;
-}
+    <!-- Dark Mode -->
+    <button id="toggleTheme">🌙 Dark Mode</button>
+  </div>
 
-/* ==========================
-   LISTA DE TAREFAS
-========================== */
-#taskList {
-  list-style: none;
-  text-align: center; /* centraliza o texto das tarefas */
-  width: 100%;
-}
-
-#taskList li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 12px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  background: #f8f8f8;
-  transition: background 0.3s;
-}
-
-#taskList li.completed .task-text {
-  text-decoration: line-through;
-  color: #999;
-}
-
-/* ==========================
-   BOTÕES DE AÇÃO
-========================== */
-.task-actions button {
-  border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
-  margin-left: 6px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.task-actions .check {
-  background: none;
-  color: #333;
-  font-weight: bold;
-}
-
-.task-actions .check.done {
-  color: #00c853;
-}
-
-.task-actions .delete {
-  background: none;
-  color: #e53935;
-}
-
-.task-actions .check:hover {
-  color: #00b14b;
-}
-
-.task-actions .delete:hover {
-  color: #d32f2f;
-}
-
-/* ==========================
-   DARK MODE
-========================== */
-body.dark {
-  background: linear-gradient(135deg, #121212, #1e1e1e);
-}
-
-body.dark .container {
-  background: #1f1f1f;
-  color: #fff;
-}
-
-body.dark #taskList li {
-  background: #2c2c2c;
-}
-
-body.dark .input-group button,
-body.dark .filters button,
-body.dark .task-actions button {
-  color: #fff;
-}
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
