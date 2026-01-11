@@ -1,34 +1,62 @@
+// ELEMENTOS
+const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
-const form = document.getElementById("taskForm");
 const filterButtons = document.querySelectorAll(".filters button");
 
+// ESTADO
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
 
-/* Carregar tarefas */
-window.onload = () => {
-  renderTasks();
-};
-
-/* Adicionar tarefa */
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  addTask(taskInput.value);
-});
-
-function addTask(text) {
-  const taskText = text.trim();
-  if (!taskText) return;
-
-  tasks.push({ text: taskText, completed: false });
-  saveTasks();
-  renderTasks();
-
-  taskInput.value = "";
+// SALVAR NO LOCALSTORAGE
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-/* Renderizar tarefas */
+// CRIAR ITEM DA LISTA
+function createTaskElement(task, index) {
+  const li = document.createElement("li");
+  if (task.completed) li.classList.add("completed");
+
+  // TEXTO
+  const span = document.createElement("span");
+  span.className = "task-text";
+  span.textContent = task.text;
+
+  // AÇÕES
+  const actions = document.createElement("div");
+  actions.className = "task-actions";
+
+  // BOTÃO CHECK
+  const checkBtn = document.createElement("button");
+  checkBtn.className = "check";
+  checkBtn.innerHTML = "✔";
+  checkBtn.addEventListener("click", () => {
+    task.completed = !task.completed;
+    saveTasks();
+    renderTasks();
+  });
+
+  // BOTÃO DELETE
+  const deleteBtn = document.createElement("button");
+  deleteBtn.className = "delete";
+  deleteBtn.innerHTML = "🗑️";
+  deleteBtn.addEventListener("click", () => {
+    tasks.splice(index, 1);
+    saveTasks();
+    renderTasks();
+  });
+
+  actions.appendChild(checkBtn);
+  actions.appendChild(deleteBtn);
+
+  li.appendChild(span);
+  li.appendChild(actions);
+
+  return li;
+}
+
+// RENDERIZAR TAREFAS
 function renderTasks() {
   taskList.innerHTML = "";
 
@@ -36,45 +64,43 @@ function renderTasks() {
 
   if (currentFilter === "pending") {
     filteredTasks = tasks.filter(task => !task.completed);
-  }
-
-  if (currentFilter === "completed") {
+  } else if (currentFilter === "completed") {
     filteredTasks = tasks.filter(task => task.completed);
   }
 
-  filteredTasks.forEach(task => createTask(task));
+  if (filteredTasks.length === 0) {
+    const empty = document.createElement("li");
+    empty.id = "emptyState";
+    empty.textContent = "No tasks found";
+    taskList.appendChild(empty);
+    return;
+  }
+
+  filteredTasks.forEach((task) => {
+    const index = tasks.indexOf(task);
+    const taskElement = createTaskElement(task, index);
+    taskList.appendChild(taskElement);
+  });
 }
 
-/* Criar item */
-function createTask(task) {
-  const li = document.createElement("li");
+// ADICIONAR TAREFA
+taskForm.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-  const span = document.createElement("span");
-  span.textContent = task.text;
+  const text = taskInput.value.trim();
+  if (text === "") return;
 
-  if (task.completed) span.classList.add("completed");
-
-  span.addEventListener("click", () => {
-    task.completed = !task.completed;
-    saveTasks();
-    renderTasks();
+  tasks.push({
+    text: text,
+    completed: false,
   });
 
-  const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "X";
+  taskInput.value = "";
+  saveTasks();
+  renderTasks();
+});
 
-  deleteBtn.addEventListener("click", () => {
-    tasks = tasks.filter(t => t !== task);
-    saveTasks();
-    renderTasks();
-  });
-
-  li.appendChild(span);
-  li.appendChild(deleteBtn);
-  taskList.appendChild(li);
-}
-
-/* Filtros */
+// FILTROS
 filterButtons.forEach(button => {
   button.addEventListener("click", () => {
     filterButtons.forEach(btn => btn.classList.remove("active"));
@@ -84,7 +110,5 @@ filterButtons.forEach(button => {
   });
 });
 
-/* LocalStorage */
-function saveTasks() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+// INICIALIZAÇÃO
+renderTasks();
