@@ -82,10 +82,17 @@ function renderTasks() {
     filteredTasks = tasks.filter(task => task.completed);
   }
 
-  if (filteredTasks.length === 0) {
+  if (tasks.length === 0) {
+    // Mostra frase apenas se não houver tarefas cadastradas
     const empty = document.createElement("li");
     empty.id = "emptyState";
-    empty.textContent = "No tasks found";
+    empty.textContent = "No tasks yet. Add your first task 👆";
+    taskList.appendChild(empty);
+  } else if (filteredTasks.length === 0) {
+    // Mostra frase se o filtro atual não retornar tarefas
+    const empty = document.createElement("li");
+    empty.id = "emptyState";
+    empty.textContent = "No tasks found for this filter";
     taskList.appendChild(empty);
   } else {
     filteredTasks.forEach((task) => {
