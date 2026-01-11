@@ -1,39 +1,47 @@
+// ===============================
 // ELEMENTOS
+// ===============================
 const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
 const filterButtons = document.querySelectorAll(".filters button");
 const toggleThemeBtn = document.getElementById("toggleTheme");
 
+// ===============================
 // ESTADO
+// ===============================
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
 
-// SALVAR NO LOCALSTORAGE
+// ===============================
+// FUNÇÕES DE ARMAZENAMENTO
+// ===============================
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// CRIAR ITEM DA LISTA
+// ===============================
+// CRIAR ELEMENTO DE TAREFA
+// ===============================
 function createTaskElement(task, index) {
   const li = document.createElement("li");
   if (task.completed) li.classList.add("completed");
 
-  // TEXTO
+  // Texto da tarefa
   const span = document.createElement("span");
   span.className = "task-text";
   span.textContent = task.text;
 
-  // AÇÕES
+  // Ações
   const actions = document.createElement("div");
   actions.className = "task-actions";
 
-  // BOTÃO CHECK
+  // Botão ✔
   const checkBtn = document.createElement("button");
   checkBtn.className = "check";
   checkBtn.innerHTML = "✔";
 
-  // aplica estado visual se já estiver concluída
+  // aplica classe done se concluída
   if (task.completed) {
     checkBtn.classList.add("done");
   }
@@ -44,7 +52,7 @@ function createTaskElement(task, index) {
     renderTasks();
   });
 
-  // BOTÃO DELETE
+  // Botão 🗑️
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete";
   deleteBtn.innerHTML = "🗑️";
@@ -64,7 +72,9 @@ function createTaskElement(task, index) {
   return li;
 }
 
-// RENDERIZAR TAREFAS
+// ===============================
+// RENDERIZAR LISTA DE TAREFAS
+// ===============================
 function renderTasks() {
   taskList.innerHTML = "";
 
@@ -91,7 +101,9 @@ function renderTasks() {
   });
 }
 
-// ADICIONAR TAREFA
+// ===============================
+// ADICIONAR NOVA TAREFA
+// ===============================
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -108,7 +120,9 @@ taskForm.addEventListener("submit", (e) => {
   renderTasks();
 });
 
-// FILTROS
+// ===============================
+// FILTROS DE TAREFA
+// ===============================
 filterButtons.forEach(button => {
   button.addEventListener("click", () => {
     filterButtons.forEach(btn => btn.classList.remove("active"));
@@ -118,9 +132,10 @@ filterButtons.forEach(button => {
   });
 });
 
+// ===============================
 // DARK MODE
+// ===============================
 if (toggleThemeBtn) {
-  // carregar tema salvo
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
     toggleThemeBtn.textContent = "☀ Light Mode";
@@ -139,5 +154,7 @@ if (toggleThemeBtn) {
   });
 }
 
+// ===============================
 // INICIALIZAÇÃO
+// ===============================
 renderTasks();
