@@ -12,7 +12,7 @@ let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
 
 // ==========================
-// SALVAR NO LOCALSTORAGE
+// SALVAR TAREFAS NO LOCALSTORAGE
 // ==========================
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -25,27 +25,27 @@ function createTaskElement(task, index) {
   const li = document.createElement("li");
   if (task.completed) li.classList.add("completed");
 
+  // Texto da tarefa
   const span = document.createElement("span");
   span.className = "task-text";
   span.textContent = task.text;
 
+  // Botões
   const actions = document.createElement("div");
   actions.className = "task-actions";
 
-  // ✔ botão concluir
+  // ✔ Concluir
   const checkBtn = document.createElement("button");
   checkBtn.className = "check";
   checkBtn.innerHTML = "✔";
   if (task.completed) checkBtn.classList.add("done");
-
   checkBtn.addEventListener("click", () => {
     task.completed = !task.completed;
-    checkBtn.classList.toggle("done");
     saveTasks();
     renderTasks();
   });
 
-  // 🗑️ botão deletar
+  // 🗑️ Deletar
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete";
   deleteBtn.innerHTML = "🗑️";
@@ -57,6 +57,7 @@ function createTaskElement(task, index) {
 
   actions.appendChild(checkBtn);
   actions.appendChild(deleteBtn);
+
   li.appendChild(span);
   li.appendChild(actions);
 
@@ -69,53 +70,40 @@ function createTaskElement(task, index) {
 function renderTasks() {
   taskList.innerHTML = "";
 
-  if (tasks.length === 0) {
-    // Nenhuma tarefa cadastrada
+  let filteredTasks = tasks;
+
+  if (currentFilter === "pending") {
+    filteredTasks = tasks.filter(task => !task.completed);
+  } else if (currentFilter === "completed") {
+    filteredTasks = tasks.filter(task => task.completed);
+  }
+
+  if (filteredTasks.length === 0) {
     const empty = document.createElement("li");
-    empty.id = "emptyState";
+    empty.className = "empty-state";
     empty.textContent = "No tasks yet. Add your first task 👆";
     taskList.appendChild(empty);
   } else {
-    // Filtrar tarefas
-    let filteredTasks = tasks;
-    if (currentFilter === "pending") {
-      filteredTasks = tasks.filter(task => !task.completed);
-    } else if (currentFilter === "completed") {
-      filteredTasks = tasks.filter(task => task.completed);
-    }
-
-    if (filteredTasks.length === 0) {
-      const empty = document.createElement("li");
-      empty.id = "emptyState";
-      empty.textContent = "No tasks found for this filter";
-      taskList.appendChild(empty);
-    } else {
-      filteredTasks.forEach(task => {
-        const index = tasks.indexOf(task);
-        taskList.appendChild(createTaskElement(task, index));
-      });
-    }
+    filteredTasks.forEach((task) => {
+      const index = tasks.indexOf(task);
+      const taskElement = createTaskElement(task, index);
+      taskList.appendChild(taskElement);
+    });
   }
 
-  updateTaskCounter();
-}
-
-// ==========================
-// ATUALIZAR CONTADOR
-// ==========================
-function updateTaskCounter() {
+  // Atualizar contador
   const total = tasks.length;
   const completed = tasks.filter(t => t.completed).length;
   taskCounter.textContent = `Total: ${total} | Completed: ${completed}`;
 }
 
 // ==========================
-// ADICIONAR TAREFA
+// ADICIONAR NOVA TAREFA
 // ==========================
-taskForm.addEventListener("submit", e => {
+taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const text = taskInput.value.trim();
-  if (text === "") return;
+  if (!text) return;
 
   tasks.push({ text, completed: false });
   taskInput.value = "";
