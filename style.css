@@ -145,3 +145,32 @@ h1 {
   font-size: 14px;
   margin-top: 10px;
 }
+/* REMOVE FUNDO DE QUALQUER BOTÃO OU ÍCONE DA LISTA */
+#taskList button,
+#taskList span,
+#taskList .check,
+#taskList .delete {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: inherit;
+}
+
+/* ESTILO DOS ÍCONES */
+#taskList button,
+#taskList .check,
+#taskList .delete {
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  margin-left: 6px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+#taskList button:hover,
+#taskList .check:hover,
+#taskList .delete:hover {
+  transform: scale(1.2);
+  opacity: 0.7;
+}
+
