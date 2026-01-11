@@ -1,3 +1,4 @@
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
@@ -5,7 +6,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Page */
+/* Fundo da página */
 body {
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea, #764ba2);
@@ -14,35 +15,35 @@ body {
   align-items: center;
 }
 
-/* Container */
+/* Container principal */
 .container {
   background: #ffffff;
   width: 100%;
   max-width: 420px;
   padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Title */
-h1 {
+/* Título */
+.container h1 {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
 }
 
-/* Input group */
+/* Formulário */
 .input-group {
   display: flex;
-  gap: 8px;
-  margin-bottom: 15px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .input-group input {
   flex: 1;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 10px 12px;
   border: 1px solid #ccc;
+  border-radius: 6px;
   font-size: 14px;
 }
 
@@ -51,84 +52,70 @@ h1 {
   border-color: #667eea;
 }
 
+/* Botão */
 .input-group button {
   padding: 10px 14px;
+  border: none;
   background: #667eea;
   color: #fff;
-  border: none;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 14px;
   transition: background 0.3s;
 }
 
 .input-group button:hover {
-  background: #5a67d8;
+  background: #5563d6;
 }
 
-/* Filters */
-.filters {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.filters button {
-  flex: 1;
-  margin: 0 4px;
-  padding: 8px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: #e2e8f0;
-  color: #333;
-  font-size: 13px;
-  transition: background 0.2s;
-}
-
-.filters button.active {
-  background: #667eea;
-  color: #fff;
-}
-
-.filters button:hover {
-  background: #cbd5e0;
-}
-
-/* Task list */
-ul {
+/* Lista */
+#taskList {
   list-style: none;
 }
 
-li {
+/* Item da lista */
+#taskList li {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #f7f7f7;
-  padding: 10px;
+  justify-content: space-between;
+  padding: 10px 12px;
   border-radius: 6px;
-  margin-bottom: 8px;
+  background: #f5f5f5;
+  margin-bottom: 10px;
+  transition: background 0.2s;
 }
 
-li span {
+#taskList li:hover {
+  background: #ececec;
+}
+
+/* Texto da tarefa */
+#taskList li span {
+  flex: 1;
   cursor: pointer;
-  word-break: break-word;
+  font-size: 14px;
+  color: #333;
 }
 
-li span.completed {
+/* Tarefa concluída */
+#taskList li span.completed {
   text-decoration: line-through;
-  color: #888;
+  color: #999;
 }
 
-/* Delete button */
-li button {
-  background: #e53e3e;
-  color: #fff;
+/* Botão remover */
+#taskList li button {
+  background: #ff4d4d;
   border: none;
+  color: #fff;
   border-radius: 4px;
   padding: 4px 8px;
   cursor: pointer;
+  font-size: 12px;
+  margin-left: 10px;
+  transition: background 0.3s;
 }
 
-li button:hover {
-  background: #c53030;
+#taskList li button:hover {
+  background: #e63e3e;
 }
