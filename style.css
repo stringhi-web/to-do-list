@@ -1,3 +1,4 @@
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -5,35 +6,36 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* BODY – DEGRADÊ VERDE */
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f9b0f, #00c853);
+  background: linear-gradient(135deg, #00c853, #64dd17);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Container */
+/* CONTAINER */
 .container {
   background: #ffffff;
   width: 100%;
   max-width: 420px;
   padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Title */
+/* TITLE */
 h1 {
   text-align: center;
   margin-bottom: 20px;
-  color: #0f9b0f;
+  color: #2e7d32;
 }
 
-/* Input Group */
+/* INPUT GROUP */
 .input-group {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 16px;
 }
 
@@ -46,89 +48,100 @@ h1 {
 }
 
 .input-group button {
-  padding: 10px 16px;
-  background: #0f9b0f;
-  color: #fff;
+  padding: 10px 14px;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
+  background: #00c853;
+  color: #fff;
   font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .input-group button:hover {
-  background: #0c7f0c;
+  background: #00b34a;
 }
 
-/* Filters */
+/* FILTERS */
 .filters {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .filters button {
   flex: 1;
-  margin: 0 3px;
-  padding: 8px;
-  background: #e8f5e9;
-  border: 1px solid #0f9b0f;
-  color: #0f9b0f;
+  margin: 0 4px;
+  padding: 6px 0;
+  border: none;
   border-radius: 6px;
+  background: #e0e0e0;
   cursor: pointer;
   font-size: 13px;
+  transition: background 0.2s ease;
 }
 
 .filters button.active {
-  background: #0f9b0f;
+  background: #00c853;
   color: #fff;
 }
 
-/* Counter */
+/* COUNTER */
 #taskCounter {
-  text-align: center;
   font-size: 13px;
+  text-align: center;
   margin-bottom: 10px;
   color: #555;
 }
 
-/* Task List */
+/* TASK LIST */
 #taskList {
   list-style: none;
 }
 
-/* Task Item */
+/* TASK ITEM */
 #taskList li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-  border-radius: 6px;
   background: #f5f5f5;
+  padding: 10px;
   margin-bottom: 8px;
+  border-radius: 6px;
 }
 
-/* Task Text */
+/* TASK TEXT */
 #taskList li span {
-  cursor: pointer;
   flex: 1;
+  cursor: pointer;
 }
 
+/* COMPLETED TASK */
 #taskList li span.completed {
   text-decoration: line-through;
   color: #888;
 }
 
-/* Delete Button */
+/* ACTION BUTTONS (✔ 🗑) */
 #taskList li button {
-  background: #e53935;
-  color: #fff;
+  background: transparent;
   border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 18px;
+  padding: 4px;
+  margin-left: 6px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 #taskList li button:hover {
-  background: #c62828;
+  transform: scale(1.2);
+  opacity: 0.7;
+}
+
+/* EMPTY STATE */
+#emptyState {
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  margin-top: 10px;
 }
