@@ -1,6 +1,4 @@
-/* ===============================
-   RESET BÁSICO E ESTILO GERAL
-   =============================== */
+/* RESET E ESTILO GERAL */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,13 +6,16 @@
   font-family: Arial, sans-serif;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* você pode trocar para center se quiser vertical central */
-  padding: 40px 20px;
+  align-items: center; /* centraliza verticalmente */
   background: linear-gradient(135deg, #a8e063, #56ab2f); /* degradê verde */
+  padding: 20px;
   transition: background 0.3s;
 }
 
@@ -28,32 +29,13 @@ body {
   text-align: center;
 }
 
-/* ===============================
-   TÍTULO E BOTÃO DARK MODE
-   =============================== */
+/* TÍTULO */
 h1 {
   margin-bottom: 15px;
   color: #333;
 }
 
-.theme-btn {
-  display: block;
-  margin: 0 auto 20px auto;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: #ddd;
-  transition: all 0.3s;
-}
-
-.theme-btn:hover {
-  background: #ccc;
-}
-
-/* ===============================
-   FORMULÁRIO
-   =============================== */
+/* FORMULÁRIO */
 .input-group {
   display: flex;
   gap: 10px;
@@ -83,9 +65,7 @@ h1 {
   background: #3e8e2f;
 }
 
-/* ===============================
-   FILTROS
-   =============================== */
+/* FILTROS */
 .filters {
   display: flex;
   justify-content: center;
@@ -108,9 +88,7 @@ h1 {
   color: #fff;
 }
 
-/* ===============================
-   LISTA DE TAREFAS
-   =============================== */
+/* LISTA DE TAREFAS */
 #taskList {
   list-style: none;
   text-align: left;
@@ -132,9 +110,7 @@ h1 {
   color: #999;
 }
 
-/* ===============================
-   BOTÕES DE AÇÃO
-   =============================== */
+/* BOTÕES DE AÇÃO */
 .task-actions button {
   border: none;
   border-radius: 6px;
@@ -145,8 +121,9 @@ h1 {
 }
 
 .task-actions .check {
-  background: #eee;
+  background: none; /* sem fundo */
   color: #333;
+  font-weight: bold;
 }
 
 .task-actions .check.done {
@@ -154,21 +131,20 @@ h1 {
 }
 
 .task-actions .delete {
-  background: #eee;
+  background: none; /* sem fundo */
   color: #e53935; /* vermelho */
 }
 
+/* HOVER */
 .task-actions .check:hover {
-  background: #d4edda;
+  color: #00b14b;
 }
 
 .task-actions .delete:hover {
-  background: #f8d7da;
+  color: #d32f2f;
 }
 
-/* ===============================
-   DARK MODE
-   =============================== */
+/* DARK MODE */
 body.dark {
   background: linear-gradient(135deg, #121212, #1e1e1e);
 }
@@ -185,14 +161,5 @@ body.dark #taskList li {
 body.dark .input-group button,
 body.dark .filters button,
 body.dark .task-actions button {
-  background: #444;
   color: #fff;
-}
-
-body.dark .task-actions .delete:hover {
-  background: #8b0000;
-}
-
-body.dark .task-actions .check:hover {
-  background: #006400;
 }
