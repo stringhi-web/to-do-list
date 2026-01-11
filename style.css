@@ -188,5 +188,52 @@ h1 {
 #taskList li {
   animation: fadeInUp 0.3s ease;
 }
+/* BOTÃO DARK MODE */
+.theme-btn {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #2e7d32;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* DARK MODE */
+body.dark {
+  background: linear-gradient(135deg, #121212, #1e1e1e);
+}
+
+body.dark .container {
+  background: #1f1f1f;
+  color: #fff;
+}
+
+body.dark input {
+  background: #2a2a2a;
+  color: #fff;
+  border-color: #444;
+}
+
+body.dark li {
+  background: #2a2a2a;
+}
+
+body.dark .filters button {
+  background: #333;
+  color: #fff;
+}
+
+body.dark .filters button.active {
+  background: #00c853;
+}
+
+body.dark .theme-btn {
+  background: #00c853;
+  color: #000;
+}
+
 
 
