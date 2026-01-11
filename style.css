@@ -1,22 +1,14 @@
-/* RESET E ESTILO GERAL */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
-
-html, body {
-  height: 100%;
-}
-
+/* ==========================
+   BODY E CONTAINER
+========================== */
 body {
+  height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center; /* centraliza verticalmente */
-  background: linear-gradient(135deg, #a8e063, #56ab2f); /* degradê verde */
+  justify-content: center; /* horizontal */
+  align-items: center;     /* vertical */
+  background: linear-gradient(135deg, #a8e063, #56ab2f);
   padding: 20px;
-  transition: background 0.3s;
+  font-family: Arial, sans-serif;
 }
 
 .container {
@@ -27,19 +19,28 @@ body {
   max-width: 500px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.15);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centraliza todos os elementos internos */
+  gap: 15px; /* espaço entre itens */
 }
 
-/* TÍTULO */
+/* ==========================
+   TÍTULO
+========================== */
 h1 {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   color: #333;
 }
 
-/* FORMULÁRIO */
+/* ==========================
+   FORMULÁRIO
+========================== */
 .input-group {
   display: flex;
+  justify-content: center;
   gap: 10px;
-  margin-bottom: 20px;
+  width: 100%;
 }
 
 #taskInput {
@@ -65,12 +66,13 @@ h1 {
   background: #3e8e2f;
 }
 
-/* FILTROS */
+/* ==========================
+   FILTROS
+========================== */
 .filters {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 15px;
 }
 
 .filters button {
@@ -88,10 +90,13 @@ h1 {
   color: #fff;
 }
 
-/* LISTA DE TAREFAS */
+/* ==========================
+   LISTA DE TAREFAS
+========================== */
 #taskList {
   list-style: none;
-  text-align: left;
+  text-align: center; /* centraliza o texto das tarefas */
+  width: 100%;
 }
 
 #taskList li {
@@ -110,7 +115,9 @@ h1 {
   color: #999;
 }
 
-/* BOTÕES DE AÇÃO */
+/* ==========================
+   BOTÕES DE AÇÃO
+========================== */
 .task-actions button {
   border: none;
   border-radius: 6px;
@@ -121,21 +128,20 @@ h1 {
 }
 
 .task-actions .check {
-  background: none; /* sem fundo */
+  background: none;
   color: #333;
   font-weight: bold;
 }
 
 .task-actions .check.done {
-  color: #00c853; /* verde ao concluir tarefa */
+  color: #00c853;
 }
 
 .task-actions .delete {
-  background: none; /* sem fundo */
-  color: #e53935; /* vermelho */
+  background: none;
+  color: #e53935;
 }
 
-/* HOVER */
 .task-actions .check:hover {
   color: #00b14b;
 }
@@ -144,7 +150,9 @@ h1 {
   color: #d32f2f;
 }
 
-/* DARK MODE */
+/* ==========================
+   DARK MODE
+========================== */
 body.dark {
   background: linear-gradient(135deg, #121212, #1e1e1e);
 }
