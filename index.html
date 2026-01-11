@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>To-Do List</title>
 
-  <!-- Favicon (arquivo favicon.ico na raiz do repositório) -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -17,7 +13,6 @@
   <div class="container">
     <h1>To-Do List</h1>
 
-    <!-- Formulário (Enter + botão funcionam) -->
     <form id="taskForm" class="input-group">
       <input
         type="text"
@@ -29,14 +24,20 @@
       <button type="submit">Add</button>
     </form>
 
-    <!-- Lista de tarefas -->
+    <!-- FILTROS -->
+    <div class="filters">
+      <button data-filter="all" class="active">All</button>
+      <button data-filter="pending">Pending</button>
+      <button data-filter="completed">Completed</button>
+    </div>
+
     <ul id="taskList"></ul>
   </div>
 
-  <!-- JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
