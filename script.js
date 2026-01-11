@@ -3,6 +3,7 @@ const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
 const filterButtons = document.querySelectorAll(".filters button");
+const toggleThemeBtn = document.getElementById("toggleTheme");
 
 // ESTADO
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -31,6 +32,12 @@ function createTaskElement(task, index) {
   const checkBtn = document.createElement("button");
   checkBtn.className = "check";
   checkBtn.innerHTML = "✔";
+
+  // aplica estado visual se já estiver concluída
+  if (task.completed) {
+    checkBtn.classList.add("done");
+  }
+
   checkBtn.addEventListener("click", () => {
     task.completed = !task.completed;
     saveTasks();
@@ -41,6 +48,7 @@ function createTaskElement(task, index) {
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete";
   deleteBtn.innerHTML = "🗑️";
+
   deleteBtn.addEventListener("click", () => {
     tasks.splice(index, 1);
     saveTasks();
@@ -110,25 +118,26 @@ filterButtons.forEach(button => {
   });
 });
 
-// INICIALIZAÇÃO
-renderTasks();
-const toggleThemeBtn = document.getElementById("toggleTheme");
+// DARK MODE
+if (toggleThemeBtn) {
+  // carregar tema salvo
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+    toggleThemeBtn.textContent = "☀ Light Mode";
+  }
 
-// Carregar tema salvo
-if (localStorage.getItem("theme") === "dark") {
-  document.body.classList.add("dark");
-  toggleThemeBtn.textContent = "☀ Light Mode";
+  toggleThemeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+      localStorage.setItem("theme", "dark");
+      toggleThemeBtn.textContent = "☀ Light Mode";
+    } else {
+      localStorage.setItem("theme", "light");
+      toggleThemeBtn.textContent = "🌙 Dark Mode";
+    }
+  });
 }
 
-toggleThemeBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-
-  if (document.body.classList.contains("dark")) {
-    localStorage.setItem("theme", "dark");
-    toggleThemeBtn.textContent = "☀ Light Mode";
-  } else {
-    localStorage.setItem("theme", "light");
-    toggleThemeBtn.textContent = "🌙 Dark Mode";
-  }
-});
-
+// INICIALIZAÇÃO
+renderTasks();
