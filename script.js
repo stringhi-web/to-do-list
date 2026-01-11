@@ -7,12 +7,13 @@ const taskList = document.getElementById("taskList");
 const filterButtons = document.querySelectorAll(".filters button");
 const toggleThemeBtn = document.getElementById("toggleTheme");
 const taskCounter = document.getElementById("taskCounter");
+const emptyState = document.getElementById("emptyState");
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
 
 // ==========================
-// SALVAR TAREFAS NO LOCALSTORAGE
+// SALVAR NO LOCALSTORAGE
 // ==========================
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -25,27 +26,26 @@ function createTaskElement(task, index) {
   const li = document.createElement("li");
   if (task.completed) li.classList.add("completed");
 
-  // Texto da tarefa
   const span = document.createElement("span");
   span.className = "task-text";
   span.textContent = task.text;
 
-  // Botões
+  if (task.completed) span.classList.add("completed");
+
   const actions = document.createElement("div");
   actions.className = "task-actions";
 
-  // ✔ Concluir
   const checkBtn = document.createElement("button");
   checkBtn.className = "check";
   checkBtn.innerHTML = "✔";
   if (task.completed) checkBtn.classList.add("done");
+
   checkBtn.addEventListener("click", () => {
     task.completed = !task.completed;
     saveTasks();
     renderTasks();
   });
 
-  // 🗑️ Deletar
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete";
   deleteBtn.innerHTML = "🗑️";
@@ -65,7 +65,7 @@ function createTaskElement(task, index) {
 }
 
 // ==========================
-// RENDERIZAR TAREFAS
+// RENDERIZAR TODAS TAREFAS
 // ==========================
 function renderTasks() {
   taskList.innerHTML = "";
@@ -79,11 +79,9 @@ function renderTasks() {
   }
 
   if (filteredTasks.length === 0) {
-    const empty = document.createElement("li");
-    empty.className = "empty-state";
-    empty.textContent = "No tasks yet. Add your first task 👆";
-    taskList.appendChild(empty);
+    emptyState.style.display = "block";
   } else {
+    emptyState.style.display = "none";
     filteredTasks.forEach((task) => {
       const index = tasks.indexOf(task);
       const taskElement = createTaskElement(task, index);
@@ -91,7 +89,13 @@ function renderTasks() {
     });
   }
 
-  // Atualizar contador
+  updateTaskCounter();
+}
+
+// ==========================
+// CONTADOR DE TAREFAS
+// ==========================
+function updateTaskCounter() {
   const total = tasks.length;
   const completed = tasks.filter(t => t.completed).length;
   taskCounter.textContent = `Total: ${total} | Completed: ${completed}`;
@@ -102,10 +106,15 @@ function renderTasks() {
 // ==========================
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const text = taskInput.value.trim();
-  if (!text) return;
 
-  tasks.push({ text, completed: false });
+  const text = taskInput.value.trim();
+  if (text === "") return;
+
+  tasks.push({
+    text: text,
+    completed: false
+  });
+
   taskInput.value = "";
   saveTasks();
   renderTasks();
