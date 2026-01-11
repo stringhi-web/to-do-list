@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>To-Do List</title>
-
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
-
   <!-- CSS -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="container">
+    <!-- Título -->
     <h1>To-Do List</h1>
 
-    <!-- Formulário (Enter + botão funcionam) -->
+    <!-- Formulário de adicionar tarefas -->
     <form id="taskForm" class="input-group">
       <input
         type="text"
@@ -35,20 +33,20 @@
       <button data-filter="completed">Completed</button>
     </div>
 
-    <!-- Contador de tarefas -->
-    <p id="taskCounter"></p>
-
     <!-- Lista de tarefas -->
     <ul id="taskList"></ul>
 
-    <!-- Estado vazio -->
+    <!-- Mensagem quando não há tarefas -->
     <p id="emptyState">No tasks yet. Add your first task 👆</p>
 
-    <!-- Dark Mode -->
+    <!-- Contador de tarefas -->
+    <p id="taskCounter"></p>
+
+    <!-- Botão Dark Mode -->
     <button id="toggleTheme">🌙 Dark Mode</button>
   </div>
 
-  <!-- JavaScript -->
+  <!-- JS -->
   <script src="script.js"></script>
 </body>
 </html>
