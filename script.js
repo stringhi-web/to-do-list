@@ -6,89 +6,85 @@ const filterButtons = document.querySelectorAll(".filters button");
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
 
-// Load tasks on page load
-window.addEventListener("DOMContentLoaded", () => {
+/* Carregar tarefas */
+window.onload = () => {
   renderTasks();
-});
+};
 
-// Handle form submit (Enter + button)
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
+/* Adicionar tarefa */
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
   addTask(taskInput.value);
 });
 
-// Filter buttons
-filterButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    currentFilter = button.dataset.filter;
-
-    filterButtons.forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
-
-    renderTasks();
-  });
-});
-
-// Add new task
 function addTask(text) {
   const taskText = text.trim();
-  if (taskText === "") return;
+  if (!taskText) return;
 
-  tasks.push({
-    text: taskText,
-    completed: false
-  });
-
+  tasks.push({ text: taskText, completed: false });
   saveTasks();
   renderTasks();
+
   taskInput.value = "";
 }
 
-// Render tasks
+/* Renderizar tarefas */
 function renderTasks() {
   taskList.innerHTML = "";
 
   let filteredTasks = tasks;
 
-  if (currentFilter === "completed") {
-    filteredTasks = tasks.filter(task => task.completed);
-  } else if (currentFilter === "pending") {
+  if (currentFilter === "pending") {
     filteredTasks = tasks.filter(task => !task.completed);
   }
 
-  filteredTasks.forEach((task, index) => {
-    const li = document.createElement("li");
+  if (currentFilter === "completed") {
+    filteredTasks = tasks.filter(task => task.completed);
+  }
 
-    const span = document.createElement("span");
-    span.textContent = task.text;
-
-    if (task.completed) {
-      span.classList.add("completed");
-    }
-
-    span.addEventListener("click", () => {
-      tasks[index].completed = !tasks[index].completed;
-      saveTasks();
-      renderTasks();
-    });
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "X";
-
-    deleteBtn.addEventListener("click", () => {
-      tasks.splice(index, 1);
-      saveTasks();
-      renderTasks();
-    });
-
-    li.appendChild(span);
-    li.appendChild(deleteBtn);
-    taskList.appendChild(li);
-  });
+  filteredTasks.forEach(task => createTask(task));
 }
 
-// Save to localStorage
+/* Criar item */
+function createTask(task) {
+  const li = document.createElement("li");
+
+  const span = document.createElement("span");
+  span.textContent = task.text;
+
+  if (task.completed) span.classList.add("completed");
+
+  span.addEventListener("click", () => {
+    task.completed = !task.completed;
+    saveTasks();
+    renderTasks();
+  });
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "X";
+
+  deleteBtn.addEventListener("click", () => {
+    tasks = tasks.filter(t => t !== task);
+    saveTasks();
+    renderTasks();
+  });
+
+  li.appendChild(span);
+  li.appendChild(deleteBtn);
+  taskList.appendChild(li);
+}
+
+/* Filtros */
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    filterButtons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+    currentFilter = button.dataset.filter;
+    renderTasks();
+  });
+});
+
+/* LocalStorage */
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
-
