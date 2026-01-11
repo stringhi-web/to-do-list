@@ -12,34 +12,30 @@ let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
 
 // ==========================
-// SALVAR TAREFAS NO LOCALSTORAGE
+// SALVAR NO LOCALSTORAGE
 // ==========================
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 // ==========================
-// RENDERIZAR UMA TAREFA
+// CRIAR ELEMENTO DE TAREFA
 // ==========================
 function createTaskElement(task, index) {
   const li = document.createElement("li");
   if (task.completed) li.classList.add("completed");
 
-  // Texto da tarefa
   const span = document.createElement("span");
   span.className = "task-text";
   span.textContent = task.text;
 
-  // Botões
   const actions = document.createElement("div");
   actions.className = "task-actions";
 
-  // ✔ Botão de concluir
+  // ✔ botão concluir
   const checkBtn = document.createElement("button");
   checkBtn.className = "check";
   checkBtn.innerHTML = "✔";
-
-  // Verde se marcada
   if (task.completed) checkBtn.classList.add("done");
 
   checkBtn.addEventListener("click", () => {
@@ -49,7 +45,7 @@ function createTaskElement(task, index) {
     renderTasks();
   });
 
-  // 🗑️ Botão deletar
+  // 🗑️ botão deletar
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete";
   deleteBtn.innerHTML = "🗑️";
@@ -61,7 +57,6 @@ function createTaskElement(task, index) {
 
   actions.appendChild(checkBtn);
   actions.appendChild(deleteBtn);
-
   li.appendChild(span);
   li.appendChild(actions);
 
@@ -69,18 +64,10 @@ function createTaskElement(task, index) {
 }
 
 // ==========================
-// RENDERIZAR TODAS TAREFAS
+// RENDERIZAR TAREFAS
 // ==========================
 function renderTasks() {
   taskList.innerHTML = "";
-
-  let filteredTasks = tasks;
-
-  if (currentFilter === "pending") {
-    filteredTasks = tasks.filter(task => !task.completed);
-  } else if (currentFilter === "completed") {
-    filteredTasks = tasks.filter(task => task.completed);
-  }
 
   if (tasks.length === 0) {
     // Nenhuma tarefa cadastrada
@@ -88,27 +75,33 @@ function renderTasks() {
     empty.id = "emptyState";
     empty.textContent = "No tasks yet. Add your first task 👆";
     taskList.appendChild(empty);
-  } else if (filteredTasks.length === 0) {
-    // Não há tarefas para o filtro selecionado
-    const empty = document.createElement("li");
-    empty.id = "emptyState";
-    empty.textContent = "No tasks found for this filter";
-    taskList.appendChild(empty);
   } else {
-    // Renderiza tarefas filtradas
-    filteredTasks.forEach((task) => {
-      const index = tasks.indexOf(task);
-      const taskElement = createTaskElement(task, index);
-      taskList.appendChild(taskElement);
-    });
+    // Filtrar tarefas
+    let filteredTasks = tasks;
+    if (currentFilter === "pending") {
+      filteredTasks = tasks.filter(task => !task.completed);
+    } else if (currentFilter === "completed") {
+      filteredTasks = tasks.filter(task => task.completed);
+    }
+
+    if (filteredTasks.length === 0) {
+      const empty = document.createElement("li");
+      empty.id = "emptyState";
+      empty.textContent = "No tasks found for this filter";
+      taskList.appendChild(empty);
+    } else {
+      filteredTasks.forEach(task => {
+        const index = tasks.indexOf(task);
+        taskList.appendChild(createTaskElement(task, index));
+      });
+    }
   }
 
   updateTaskCounter();
 }
 
-
 // ==========================
-// CONTADOR DE TAREFAS
+// ATUALIZAR CONTADOR
 // ==========================
 function updateTaskCounter() {
   const total = tasks.length;
@@ -117,19 +110,14 @@ function updateTaskCounter() {
 }
 
 // ==========================
-// ADICIONAR NOVA TAREFA
+// ADICIONAR TAREFA
 // ==========================
-taskForm.addEventListener("submit", (e) => {
+taskForm.addEventListener("submit", e => {
   e.preventDefault();
-
   const text = taskInput.value.trim();
   if (text === "") return;
 
-  tasks.push({
-    text: text,
-    completed: false
-  });
-
+  tasks.push({ text, completed: false });
   taskInput.value = "";
   saveTasks();
   renderTasks();
@@ -170,4 +158,3 @@ toggleThemeBtn.addEventListener("click", () => {
 // INICIALIZAÇÃO
 // ==========================
 renderTasks();
-
