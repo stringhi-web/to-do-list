@@ -14,6 +14,7 @@ const emptyState = document.getElementById("emptyState");
 // ==========================
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
+let draggedIndex = null;
 
 // ==========================
 // LOCALSTORAGE
@@ -27,14 +28,46 @@ function saveTasks() {
 // ==========================
 function createTaskElement(task, index) {
   const li = document.createElement("li");
+  li.draggable = true;
+  li.dataset.index = index;
+
   if (task.completed) li.classList.add("completed");
 
-  // Texto
+  // ==========================
+  // DRAG EVENTS
+  // ==========================
+  li.addEventListener("dragstart", () => {
+    draggedIndex = index;
+    li.classList.add("dragging");
+  });
+
+  li.addEventListener("dragend", () => {
+    li.classList.remove("dragging");
+  });
+
+  li.addEventListener("dragover", (e) => {
+    e.preventDefault();
+  });
+
+  li.addEventListener("drop", () => {
+    if (draggedIndex === null || draggedIndex === index) return;
+
+    const draggedTask = tasks[draggedIndex];
+    tasks.splice(draggedIndex, 1);
+    tasks.splice(index, 0, draggedTask);
+
+    saveTasks();
+    renderTasks();
+  });
+
+  // ==========================
+  // TEXTO
+  // ==========================
   const span = document.createElement("span");
   span.className = "task-text";
   span.textContent = task.text;
 
-  // ✏️ Editar com duplo clique
+  // ✏️ Edição
   span.addEventListener("dblclick", () => {
     const input = document.createElement("input");
     input.type = "text";
@@ -61,7 +94,9 @@ function createTaskElement(task, index) {
     });
   });
 
-  // Ações
+  // ==========================
+  // AÇÕES
+  // ==========================
   const actions = document.createElement("div");
   actions.className = "task-actions";
 
@@ -113,13 +148,9 @@ function renderTasks() {
   }
 
   // Empty state
-  if (tasks.length === 0) {
-    emptyState.style.display = "block";
-  } else {
-    emptyState.style.display = "none";
-  }
+  emptyState.style.display = tasks.length === 0 ? "block" : "none";
 
-  filteredTasks.forEach((task) => {
+  filteredTasks.forEach(task => {
     const index = tasks.indexOf(task);
     taskList.appendChild(createTaskElement(task, index));
   });
