@@ -218,3 +218,18 @@ body.dark #toggleTheme {
     transform: translateY(0);
   }
 }
+.edit-input {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #4CAF50;
+  font-size: 1em;
+  outline: none;
+}
+
+body.dark .edit-input {
+  background-color: #222;
+  color: #fff;
+  border-color: #81C784;
+}
+
