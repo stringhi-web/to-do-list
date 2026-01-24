@@ -1,5 +1,5 @@
 // ==========================
-// ELEMENTS
+// ELEMENTOS
 // ==========================
 const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
@@ -10,53 +10,90 @@ const taskCounter = document.getElementById("taskCounter");
 const emptyState = document.getElementById("emptyState");
 
 // ==========================
-// STATE
+// ESTADO
 // ==========================
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
 
 // ==========================
-// SAVE
+// LOCALSTORAGE
 // ==========================
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 // ==========================
-// CREATE TASK
+// CRIAR ITEM
 // ==========================
 function createTaskElement(task, index) {
   const li = document.createElement("li");
+  if (task.completed) li.classList.add("completed");
 
+  // Texto
   const span = document.createElement("span");
+  span.className = "task-text";
   span.textContent = task.text;
-  span.className = task.completed ? "task-text completed" : "task-text";
 
+  // ✏️ Editar com duplo clique
+  span.addEventListener("dblclick", () => {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = task.text;
+    input.className = "edit-input";
+
+    li.replaceChild(input, span);
+    input.focus();
+
+    function saveEdit() {
+      const newText = input.value.trim();
+      if (newText !== "") {
+        task.text = newText;
+        saveTasks();
+      }
+      renderTasks();
+    }
+
+    input.addEventListener("blur", saveEdit);
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") saveEdit();
+      if (e.key === "Escape") renderTasks();
+    });
+  });
+
+  // Ações
   const actions = document.createElement("div");
   actions.className = "task-actions";
 
+  // ✔ Check
   const checkBtn = document.createElement("button");
-  checkBtn.innerHTML = "✔";
   checkBtn.className = "check";
+  checkBtn.innerHTML = "✔";
+
   if (task.completed) checkBtn.classList.add("done");
 
-  checkBtn.onclick = () => {
+  checkBtn.addEventListener("click", () => {
     task.completed = !task.completed;
     saveTasks();
     renderTasks();
-  };
+  });
 
+  // 🗑️ Delete
   const deleteBtn = document.createElement("button");
-  deleteBtn.innerHTML = "🗑️";
   deleteBtn.className = "delete";
-  deleteBtn.onclick = () => {
+  deleteBtn.innerHTML = "🗑️";
+
+  deleteBtn.addEventListener("click", () => {
     tasks.splice(index, 1);
     saveTasks();
     renderTasks();
-  };
+  });
 
-  actions.append(checkBtn, deleteBtn);
-  li.append(span, actions);
+  actions.appendChild(checkBtn);
+  actions.appendChild(deleteBtn);
+
+  li.appendChild(span);
+  li.appendChild(actions);
 
   return li;
 }
@@ -67,24 +104,22 @@ function createTaskElement(task, index) {
 function renderTasks() {
   taskList.innerHTML = "";
 
-  let filtered = tasks;
+  let filteredTasks = tasks;
 
   if (currentFilter === "pending") {
-    filtered = tasks.filter(t => !t.completed);
-  }
-  if (currentFilter === "completed") {
-    filtered = tasks.filter(t => t.completed);
+    filteredTasks = tasks.filter(t => !t.completed);
+  } else if (currentFilter === "completed") {
+    filteredTasks = tasks.filter(t => t.completed);
   }
 
-  // EMPTY STATE
+  // Empty state
   if (tasks.length === 0) {
     emptyState.style.display = "block";
-    emptyState.textContent = "No tasks yet. Add your first task 👆";
   } else {
     emptyState.style.display = "none";
   }
 
-  filtered.forEach(task => {
+  filteredTasks.forEach((task) => {
     const index = tasks.indexOf(task);
     taskList.appendChild(createTaskElement(task, index));
   });
@@ -93,34 +128,43 @@ function renderTasks() {
 }
 
 // ==========================
-// COUNTER
+// CONTADOR
 // ==========================
 function updateCounter() {
+  const total = tasks.length;
   const completed = tasks.filter(t => t.completed).length;
-  taskCounter.textContent = `Total: ${tasks.length} | Completed: ${completed}`;
+  taskCounter.textContent = `Total: ${total} | Completed: ${completed}`;
 }
 
 // ==========================
 // ADD TASK
 // ==========================
-taskForm.onsubmit = e => {
+taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  tasks.push({ text: taskInput.value, completed: false });
+
+  const text = taskInput.value.trim();
+  if (!text) return;
+
+  tasks.push({
+    text,
+    completed: false
+  });
+
   taskInput.value = "";
   saveTasks();
   renderTasks();
-};
+});
 
 // ==========================
-// FILTERS
+// FILTROS
 // ==========================
-filterButtons.forEach(btn => {
-  btn.onclick = () => {
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
     filterButtons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentFilter = btn.dataset.filter;
+    button.classList.add("active");
+    currentFilter = button.dataset.filter;
     renderTasks();
-  };
+  });
 });
 
 // ==========================
@@ -131,12 +175,19 @@ if (localStorage.getItem("theme") === "dark") {
   toggleThemeBtn.textContent = "☀ Light Mode";
 }
 
-toggleThemeBtn.onclick = () => {
+toggleThemeBtn.addEventListener("click", () => {
   document.body.classList.toggle("dark");
-  const dark = document.body.classList.contains("dark");
-  localStorage.setItem("theme", dark ? "dark" : "light");
-  toggleThemeBtn.textContent = dark ? "☀ Light Mode" : "🌙 Dark Mode";
-};
 
+  if (document.body.classList.contains("dark")) {
+    localStorage.setItem("theme", "dark");
+    toggleThemeBtn.textContent = "☀ Light Mode";
+  } else {
+    localStorage.setItem("theme", "light");
+    toggleThemeBtn.textContent = "🌙 Dark Mode";
+  }
+});
+
+// ==========================
 // INIT
+// ==========================
 renderTasks();
