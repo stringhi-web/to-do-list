@@ -1,5 +1,5 @@
 // ==========================
-// ELEMENTOS
+// ELEMENTS
 // ==========================
 const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
@@ -9,132 +9,118 @@ const toggleThemeBtn = document.getElementById("toggleTheme");
 const taskCounter = document.getElementById("taskCounter");
 const emptyState = document.getElementById("emptyState");
 
+// ==========================
+// STATE
+// ==========================
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let currentFilter = "all";
 
 // ==========================
-// SALVAR NO LOCALSTORAGE
+// SAVE
 // ==========================
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 // ==========================
-// CRIAR ELEMENTO DE TAREFA
+// CREATE TASK
 // ==========================
 function createTaskElement(task, index) {
   const li = document.createElement("li");
-  if (task.completed) li.classList.add("completed");
 
   const span = document.createElement("span");
-  span.className = "task-text";
   span.textContent = task.text;
-
-  if (task.completed) span.classList.add("completed");
+  span.className = task.completed ? "task-text completed" : "task-text";
 
   const actions = document.createElement("div");
   actions.className = "task-actions";
 
   const checkBtn = document.createElement("button");
-  checkBtn.className = "check";
   checkBtn.innerHTML = "✔";
+  checkBtn.className = "check";
   if (task.completed) checkBtn.classList.add("done");
 
-  deleteBtn.addEventListener("click", () => {
-  li.classList.add("removing");
-
-  setTimeout(() => {
-    tasks.splice(index, 1);
+  checkBtn.onclick = () => {
+    task.completed = !task.completed;
     saveTasks();
     renderTasks();
-  }, 200);
-});
-
+  };
 
   const deleteBtn = document.createElement("button");
-  deleteBtn.className = "delete";
   deleteBtn.innerHTML = "🗑️";
-  deleteBtn.addEventListener("click", () => {
+  deleteBtn.className = "delete";
+  deleteBtn.onclick = () => {
     tasks.splice(index, 1);
     saveTasks();
     renderTasks();
-  });
+  };
 
-  actions.appendChild(checkBtn);
-  actions.appendChild(deleteBtn);
-
-  li.appendChild(span);
-  li.appendChild(actions);
+  actions.append(checkBtn, deleteBtn);
+  li.append(span, actions);
 
   return li;
 }
 
 // ==========================
-// RENDERIZAR TODAS TAREFAS
+// RENDER
 // ==========================
 function renderTasks() {
   taskList.innerHTML = "";
 
-  let filteredTasks = tasks;
+  let filtered = tasks;
 
   if (currentFilter === "pending") {
-    filteredTasks = tasks.filter(task => !task.completed);
-  } else if (currentFilter === "completed") {
-    filteredTasks = tasks.filter(task => task.completed);
+    filtered = tasks.filter(t => !t.completed);
+  }
+  if (currentFilter === "completed") {
+    filtered = tasks.filter(t => t.completed);
   }
 
-  if (filteredTasks.length === 0) {
+  // EMPTY STATE
+  if (tasks.length === 0) {
     emptyState.style.display = "block";
+    emptyState.textContent = "No tasks yet. Add your first task 👆";
   } else {
     emptyState.style.display = "none";
-    filteredTasks.forEach((task) => {
-      const index = tasks.indexOf(task);
-      const taskElement = createTaskElement(task, index);
-      taskList.appendChild(taskElement);
-    });
   }
 
-  updateTaskCounter();
-}
-
-// ==========================
-// CONTADOR DE TAREFAS
-// ==========================
-function updateTaskCounter() {
-  const total = tasks.length;
-  const completed = tasks.filter(t => t.completed).length;
-  taskCounter.textContent = `Total: ${total} | Completed: ${completed}`;
-}
-
-// ==========================
-// ADICIONAR NOVA TAREFA
-// ==========================
-taskForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const text = taskInput.value.trim();
-  if (text === "") return;
-
-  tasks.push({
-    text: text,
-    completed: false
+  filtered.forEach(task => {
+    const index = tasks.indexOf(task);
+    taskList.appendChild(createTaskElement(task, index));
   });
 
+  updateCounter();
+}
+
+// ==========================
+// COUNTER
+// ==========================
+function updateCounter() {
+  const completed = tasks.filter(t => t.completed).length;
+  taskCounter.textContent = `Total: ${tasks.length} | Completed: ${completed}`;
+}
+
+// ==========================
+// ADD TASK
+// ==========================
+taskForm.onsubmit = e => {
+  e.preventDefault();
+  tasks.push({ text: taskInput.value, completed: false });
   taskInput.value = "";
   saveTasks();
   renderTasks();
-});
+};
 
 // ==========================
-// FILTROS
+// FILTERS
 // ==========================
-filterButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    filterButtons.forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
-    currentFilter = button.dataset.filter;
+filterButtons.forEach(btn => {
+  btn.onclick = () => {
+    filterButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentFilter = btn.dataset.filter;
     renderTasks();
-  });
+  };
 });
 
 // ==========================
@@ -145,19 +131,12 @@ if (localStorage.getItem("theme") === "dark") {
   toggleThemeBtn.textContent = "☀ Light Mode";
 }
 
-toggleThemeBtn.addEventListener("click", () => {
+toggleThemeBtn.onclick = () => {
   document.body.classList.toggle("dark");
-  if (document.body.classList.contains("dark")) {
-    localStorage.setItem("theme", "dark");
-    toggleThemeBtn.textContent = "☀ Light Mode";
-  } else {
-    localStorage.setItem("theme", "light");
-    toggleThemeBtn.textContent = "🌙 Dark Mode";
-  }
-});
+  const dark = document.body.classList.contains("dark");
+  localStorage.setItem("theme", dark ? "dark" : "light");
+  toggleThemeBtn.textContent = dark ? "☀ Light Mode" : "🌙 Dark Mode";
+};
 
-// ==========================
-// INICIALIZAÇÃO
-// ==========================
+// INIT
 renderTasks();
-
