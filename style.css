@@ -1,5 +1,5 @@
 /* ==========================
-   Reset e estilos básicos
+   RESET
 ========================== */
 * {
   margin: 0;
@@ -8,54 +8,53 @@
   font-family: Arial, sans-serif;
 }
 
+/* ==========================
+   BODY
+========================== */
 body {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #4CAF50, #81C784); /* degradê verde */
-  transition: background 0.3s ease, color 0.3s ease;
+  background: linear-gradient(135deg, #4CAF50, #81C784);
+  transition: background 0.3s ease;
   color: #000;
 }
 
-/* ==========================
-   Dark Mode
-========================== */
 body.dark {
   background: #121212;
   color: #fff;
 }
 
 /* ==========================
-   Container
+   CONTAINER
 ========================== */
 .container {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   padding: 30px;
-  border-radius: 12px;
+  border-radius: 14px;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
   backdrop-filter: blur(10px);
 }
 
 /* ==========================
-   Título
+   TITLE
 ========================== */
 h1 {
-  font-size: 2em;
   margin-bottom: 20px;
-  color: #000; /* preto no modo claro */
-  transition: color 0.3s ease;
+  font-size: 2em;
+  color: #000;
 }
 
 body.dark h1 {
-  color: #fff; /* branco no dark mode */
+  color: #fff;
 }
 
 /* ==========================
-   Formulário
+   FORM
 ========================== */
 .input-group {
   display: flex;
@@ -68,64 +67,60 @@ body.dark h1 {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  outline: none;
 }
 
 .input-group button {
   padding: 10px 15px;
   border-radius: 8px;
   border: none;
-  cursor: pointer;
-  background-color: #4CAF50;
+  background: #4CAF50;
   color: #fff;
-  transition: background 0.3s ease;
+  cursor: pointer;
 }
 
 .input-group button:hover {
-  background-color: #388E3C;
+  background: #388E3C;
 }
 
 /* ==========================
-   Filtros
+   FILTERS
 ========================== */
 .filters {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .filters button {
-  padding: 5px 12px;
+  padding: 6px 14px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  background-color: #e0e0e0;
-  transition: background 0.3s ease;
+  background: #e0e0e0;
 }
 
 .filters button.active {
-  background-color: #4CAF50;
+  background: #4CAF50;
   color: #fff;
 }
 
 body.dark .filters button {
-  background-color: #333;
+  background: #333;
   color: #fff;
 }
 
 body.dark .filters button.active {
-  background-color: #81C784;
+  background: #81C784;
   color: #000;
 }
 
 /* ==========================
-   Lista de tarefas
+   TASK LIST
 ========================== */
 #taskList {
   list-style: none;
   text-align: left;
-  margin-bottom: 10px;
 }
 
 #taskList li {
@@ -135,16 +130,12 @@ body.dark .filters button.active {
   padding: 10px 12px;
   margin-bottom: 8px;
   border-radius: 6px;
-  background-color: rgba(255,255,255,0.3);
-  transition: background 0.3s ease;
+  background: rgba(255,255,255,0.4);
+  animation: fadeIn 0.3s ease;
 }
 
 body.dark #taskList li {
-  background-color: rgba(255,255,255,0.1);
-}
-
-.task-text {
-  flex: 1;
+  background: rgba(255,255,255,0.1);
 }
 
 .task-text.completed {
@@ -153,24 +144,22 @@ body.dark #taskList li {
 }
 
 /* ==========================
-   Botões ✔ e 🗑️
+   ACTION BUTTONS
 ========================== */
 .task-actions button {
-  border: none;
   background: none;
+  border: none;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 1.1em;
   margin-left: 10px;
-  transition: color 0.3s ease;
-}
-
-/* Botão ✔ verde se concluído */
-.task-actions .check.done {
-  color: #4CAF50;
 }
 
 .task-actions .check {
   color: #000;
+}
+
+.task-actions .check.done {
+  color: #4CAF50;
 }
 
 body.dark .task-actions .check {
@@ -182,12 +171,11 @@ body.dark .task-actions .check {
 }
 
 /* ==========================
-   Empty State e Contador
+   EMPTY + COUNTER
 ========================== */
 #emptyState {
-  text-align: center;
   margin-top: 10px;
-  color: #666;
+  color: #555;
 }
 
 body.dark #emptyState {
@@ -200,57 +188,33 @@ body.dark #emptyState {
 }
 
 /* ==========================
-   Botão Dark Mode
+   DARK MODE BUTTON
 ========================== */
 #toggleTheme {
   margin-top: 20px;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background-color: #4CAF50;
+  background: #4CAF50;
   color: #fff;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-#toggleTheme:hover {
-  background-color: #388E3C;
 }
 
 body.dark #toggleTheme {
-  background-color: #81C784;
+  background: #81C784;
   color: #000;
 }
+
 /* ==========================
-   Animações
+   ANIMATION
 ========================== */
-@keyframes fadeInUp {
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(5px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-}
-
-#taskList li {
-  animation: fadeInUp 0.3s ease;
-}
-
-#taskList li.removing {
-  animation: fadeOut 0.2s ease forwards;
-}
-
