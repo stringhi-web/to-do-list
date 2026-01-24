@@ -40,11 +40,16 @@ function createTaskElement(task, index) {
   checkBtn.innerHTML = "✔";
   if (task.completed) checkBtn.classList.add("done");
 
-  checkBtn.addEventListener("click", () => {
-    task.completed = !task.completed;
+  deleteBtn.addEventListener("click", () => {
+  li.classList.add("removing");
+
+  setTimeout(() => {
+    tasks.splice(index, 1);
     saveTasks();
     renderTasks();
-  });
+  }, 200);
+});
+
 
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete";
@@ -155,3 +160,4 @@ toggleThemeBtn.addEventListener("click", () => {
 // INICIALIZAÇÃO
 // ==========================
 renderTasks();
+
